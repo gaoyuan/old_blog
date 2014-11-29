@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Math, CS and Fun</title>
+  <link href="/assets/charlesgao/stylesheets/style.css?0.4903076125360465" type="text/css" rel="stylesheet" media="all">
+<link href="/assets/charlesgao/widgets/google_prettify/stylesheets/twitter-bootstrap.css?0.027136853309803866" type="text/css" rel="stylesheet" media="all">
+
+
+  <script>
+  var _gaq=[['_setAccount','UA-33798309-1'],['_trackPageview']];
+  (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+  g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+  s.parentNode.insertBefore(g,s)}(document,'script'));
+</script>
+    <script type='text/x-mathjax-config'>
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [['$','$'], ['\\(','\\)']],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+        }
+    });
+    MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+    });
+    </script>
+    <script type='text/javascript' src='http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+</head>
+
+<body onLoad="init();">
+
+    <div class="blog-title">
+      <h1><a href="/">Math, CS and Fun</a></h1>
+      <h3>Yet another blog of Yuan Gao.</h3>
+    </div>
+
+    <div class="content">
+      <div class="post">
+  <h3 class="title"><a href="/2014/11/13/things-about-general-exam.html">Things About General Exam</a> <span class="date">2014-11-13</span></h3>
+
+  <p>Today I talked with Professor Mark Kot about my progress in the marathon of PhD. Mark was very helpful and offered me lots of advice. I&#39;m about to take my general exam this year, so it&#39;s important to keep in mind the rules.</p>
+
+<p>Both the general exam and the final thesis defense are supervised by a committee of four to five professors. Chairman of the committee, of course, is my advisor. One of them is the Graduate School Representative (GPA), and he/she has to be from another department. The main purpose of GPA is to keep my advisor from answering questions for me, thus maintaining the fairness of the exam. Aside from the chairman and GPA, one of the professors must be from the CORE amath faculty. That&#39;s basically all the constraints, so I have the freedom to choose one or two other committee members. And it&#39;s always a good idea to choose professors knowledgeable of the field of my research.</p>
+
+<p>For the final thesis defense, I have to get my written thesis proofread by the reading committee, which are formed by two members from my supervisory committee, before formally arranging an exam date with the graduate school. One important thing to remind my advisor to bring on the final exam is the warrant, a document that has to be signed by all members.</p>
+
+
+  <div class="more">
+    <a href="/2014/11/13/things-about-general-exam.html" class="btn">Read more or comment..</a>
+  </div>
+</div>
+<div class="post">
+  <h3 class="title"><a href="/2014/05/27/probability-density-function-and-partial-differential-equations.html">Probability Density Function And Partial Differential Equations</a> <span class="date">2014-05-27</span></h3>
+
+  <p>Consider the following problem:</p>
+
+<blockquote>
+<p>The price of a stock is described by a Brownian motion. Suppose the starting price is 5, and the company defaults if ever the price drops to zero. What is the probability that the company is bankrupt at time $T$? What is the probability that the price is above 10 at time $T$?</p>
+</blockquote>
+
+<p>Let&#39;s say the price of the stock is described by the time series $p(t)$. The company is bankrupt at time $T$ if $\exists s \le T$, such that $p(s) = 0$. By the reflection principle of Brownian motion, 
+\begin{equation}
+P\left(inf_{0\le s\le T}p(s) \le 0\right) = 2P\left(p(T) \le 0\right) = 2\int_{-\infty}^{-5}\frac{1}{\sqrt{2\pi T}}e^{\frac{-x^2}{2T}}.
+\end{equation}
+For the second question, we need $p(T) &gt; 10$ and $p(s) &gt; 0, \forall 0 \le s \le T$. The probability can be calculated as 
+\begin{equation}
+P\left(p(T) &gt; 10\right) - P\left(p(T) &gt; 10 \cap inf_{0\le s\le T}p(s) \le 0\right),
+\end{equation}
+using the fact that $P(A\cap B) = P(A) - P(A\cap B^\complement)$. Note that the latter part is equal to $P\left(p(T) &lt; -10\right)$ (Imagine the price first hits zero, then the probability that it goes back above 10 is equal to a reflecting process that drops below -10). Therefore the probability that the price is above 10 at time $T$ is
+\begin{equation}
+P\left(p(T) &lt; 0\right) - P\left(p(T) &lt; -10\right) = P\left(-10 \le p(T) &lt; 0\right) = \int_{-15}^{-5}\frac{1}{\sqrt{2\pi T}}e^{\frac{-x^2}{2T}}.
+\end{equation}</p>
+
+<p>Now let&#39;s solve the problem in another way. We know that Brownian motion is governed by the following partial differential equation
+\begin{equation}
+p_t(x, t) = Dp_{xx}(x, t),
+\end{equation}
+where $p(x,t)$ is the probability density. For a standard Brownian motion, we have $D = 1/2$. Going back to our problem, we know the stock price satisfies this PDE, with boundary conditions $p(0, t) = 0$ and $p(x, t) \rightarrow 0, x \rightarrow \infty$. The absorbing boundary condition reflects the fact that once the price drops to zero, we are at the point of no return. The initial condition for the density is given by $p(x, 0) = \delta(x - 5)$.</p>
+
+<p>To solve for this PDE with the above initial and boundary conditions, one always apply the Green function and the method of images. That is, we imagine another point source that is outside of the domain (at $x = -5$) which counteracts the point source at $x = 5$ to give us the boundary condition. The solution is therefore the superposition of two Green functions
+\begin{equation}
+p(x, t) = G(5) - G(-5) = \frac{1}{\sqrt{2\pi t}}\left(e^{\frac{-(x-5)^2}{2t}} - e^{\frac{-(x+5)^2}{2t}} \right).
+\end{equation}
+See a plot of this density:</p>
+
+
+  <div class="more">
+    <a href="/2014/05/27/probability-density-function-and-partial-differential-equations.html" class="btn">Read more or comment..</a>
+  </div>
+</div>
+<div class="post">
+  <h3 class="title"><a href="/2013/01/29/conferences-related-to-control.html">Conferences Related To Control</a> <span class="date">2013-01-29</span></h3>
+
+  <p><a href="http://dynamicwalking.org">Dynamic Walking 2013</a>
+Deadline: 2/10/2013</p>
+
+<p><a href="http://cdc2013.units.it">Conference on Decision and Control 2013</a>
+Deadline: 3/4/2013</p>
+
+<p><a href="http://www.iros2013.org">International Conference on Intelligent Robots and Systems 2013</a>
+Deadline: 3/15/2013</p>
+
+<p><a href="http://www.wikicfp.com/cfp/servlet/event.showcfp?eventid=21361&amp;copyownerid=1">Neural Information Processing Systems Conference 2013</a>
+Deadline: 4/15/2013</p>
+
+<p><a href="http://www.wikicfp.com/cfp/servlet/event.showcfp?eventid=28382&amp;copyownerid=46723">IEEE International Conference on Control, Automation, Robotics and Embedded systems</a>
+Deadline: 7/13/2013</p>
+
+<p><a href="http://web.utk.edu/%7Ejtan10/icra2014">International Conference on Robotics and Automation 2014</a>
+Deadline: 8/15/2013</p>
+
+<p><a href="http://a2c2.org/conferences/acc2014">American Control Conference 2014</a>
+Deadline: 9/27/2013</p>
+
+<p>ADPRL 2014</p>
+
+
+  <div class="more">
+    <a href="/2013/01/29/conferences-related-to-control.html" class="btn">Read more or comment..</a>
+  </div>
+</div>
+<div class="post">
+  <h3 class="title"><a href="/2012/09/25/discovering-prefixes-and-suffixes.html">Discovering Prefixes And Suffixes</a> <span class="date">2012-09-25</span></h3>
+
+  <p>English is a language that has a concatinative morphology. For example, the word <em>preinstallation</em> can be split into three parts -- a prefix <em>pre</em>, a stem <em>install</em> and a suffix <em>ation</em>. Given a corpus of english words, how do we discover the prefixes and suffixes computationally? This is an interesting question, for we can use similar methods to analyze other languages that also share a concatinative morphology.</p>
+
+<p>The corpus of english words can be represented by a forward tree (and a backward tree). The root of the forward tree is the token that denotes the start of word. Each node in the tree corresponds to a character. A word in the corpus is therefore a path starting from the root. Similarly, for the backward tree, the root is the end of word token. A path starting from the root corresponds to a word reading backwards.</p>
+
+<p>After building this tree representation, we can calculate the frequency of each node, which is defined as the frequency of the path starting from the root to that node. Since prefixes(or suffixes) tend to appear more often, high frequency candidates are more likely to be considered prefixes(or suffixes) given a fixed character sequence length, or equivalently, a fixed depth in the tree. For instance, for a forward tree, we sort the candidates with tree depth 5 by their frequencies, we get (below the root, i.e. start of word token, is ignored)</p>
+
+<blockquote>
+<p>candidate,frequency</p>
+
+<p>OVER,378</p>
+
+<p>INTE,338</p>
+
+<p>COMP,233</p>
+
+<p>CONS,212</p>
+
+<p>UNDE,205</p>
+
+<p>TRAN,183</p>
+
+<p>CONT,179</p>
+
+<p>STRA,150</p>
+
+<p>COMM,142</p>
+
+<p>PRES,133</p>
+
+<p>...</p>
+</blockquote>
+
+<p>It seems that we can capture some prefixes solely by their frequencies. The guy on the top of the list -- <em>OVER</em> is a common prefix. However, a lot of the high frequency stuff are not actually prefixes, like <em>INTE</em> and <em>UNDE</em>. Why do they have a high frequency though? That is because <em>INTER</em> and <em>UNDER</em> are prefixes. So high frequency itself is not a sufficient criterion for a prefix.</p>
+
+<p>It turns out we can eliminate the bad ones by the distribution of their children. For all the characters following <em>INTE</em>, most of their occurancies should be <em>R</em>, therefore the distribution of the children of <em>INTE</em> should be highly biased. A measure that people usually use to discribe this is called <strong>Entropy</strong>. It is defined as $-\sum_ip_i \ln p_i$, where $p_i$ is the probability of the i-th child. A high entropy implies the children are evenly distributed. Candidate with a high entropy is evidence for a good cut between prefix and stem. That is because varies stems can be attached to the same prefix, so the character following the prefix is rather chaotic.</p>
+
+<p>It turns out there exist some cases where the boundary of a prefix or suffix does not have a high entropy. The suffix <em>-ing</em> is a good example. Unfortunately, <em>ling</em> appears more often than other <em>-ing</em>&#39;s, like <em>ting</em> or <em>ming</em>. Therefore if you look at <em>ing</em>, it doesn&#39;t have a very high entropy. Combining the frequency and entropy criterions helps a lot, but there are still some corner cases.</p>
+
+<p>What if we print the frequency and entropy path of each candidate? Below we selected the depth-6 candidates that have both high frequencies and high entropies. We print the frequency and entropy path of each candidate:</p>
+
+<blockquote>
+<p>B L A C K 62 2.44667
+B L A C   63 0.0815104
+B L A 235 2.2194
+B L   642 1.52547
+B 8561 1.94162</p>
+</blockquote>
+
+
+  <div class="more">
+    <a href="/2012/09/25/discovering-prefixes-and-suffixes.html" class="btn">Read more or comment..</a>
+  </div>
+</div>
+<div class="post">
+  <h3 class="title"><a href="/2012/09/06/practice-qual-summer-2010-day1-p4.html">Practice Qual Summer 2010 Day1 P4</a> <span class="date">2012-09-06</span></h3>
+
+  <blockquote>
+<p>Assume that $k:[0,1]\times[0,1] \rightarrow \mathcal{R}$ is continuously differentiable and that $f:[0,1] \rightarrow \mathcal{R}$is continuous. Using the definition of the derivative, and the derivative with respect to $x$ of
+\begin{equation}
+F(x) = \int_0^x k(x,y)f(y)dy, x \in (0,1),
+\end{equation}
+As an example, let $k(x,y) = x^2y$ and $f(x)=x$. Calculate $F&#39;(x)$ in two different ways: (i) using the formula you found, and (ii) by calculating $F(x)$ and taking a derivative.</p>
+</blockquote>
+
+<p>By the definition of derivative,
+\begin{equation}
+F&#39;(x) = \lim_{\epsilon\rightarrow 0}\frac{F(x+\epsilon)-F(x)}{\epsilon} = \left(\int_0^{x+\epsilon}k(x+\epsilon,y)f(y)dy - \int_0^x k(x,y)f(y)dy\right)/\epsilon
+\end{equation}
+\begin{equation}
+=\lim_{\epsilon\rightarrow 0}\left(\int_0^{x+\epsilon}k(x+\epsilon,y)f(y)dy - \int_0^{x+\epsilon}k(x,y)f(y)dy + \int_0^{x+\epsilon}k(x,y)f(y)dy - \int_0^x k(x,y)f(y)dy\right)/\epsilon
+\end{equation}
+\begin{equation}
+=\lim_{\epsilon\rightarrow 0}\left(\int_0^{x+\epsilon}\frac{k(x+\epsilon,y)-k(x,y)}{\epsilon} f(y)dy  + \frac{1}{\epsilon}\int_x^{x+\epsilon}k(x,y)f(y)dy \right) = \int_0^xk_x(x,y)f(y)dy + k(x,x)f(x)
+\end{equation}
+In the derivation above, we used the continuously differentiability of $k$ and the continuity of $f$ in exchanging the integral and limit at the second last step.</p>
+
+<p>For the example $k(x,y)=x^2y$ and $f(x)=x$, we first use our formula:
+\begin{equation}
+\int_0^xk_x(x,y)f(y)dy + k(x,x)f(x) = \int_0^x2xy^2dy + x^4 = \frac{5}{3}x^4.
+\end{equation}
+If we calculate it directly, we get
+\begin{equation}
+\int_0^xk(x,y)f(y)dy = \int_0^xx^2y^2dy = \frac{1}{3}x^5. 
+\end{equation}
+Then by taking the derivative of $\frac{1}{3}x^5$ respect to $x$ we get the same solution.</p>
+
+
+  <div class="more">
+    <a href="/2012/09/06/practice-qual-summer-2010-day1-p4.html" class="btn">Read more or comment..</a>
+  </div>
+</div>
+<div class="post">
+  <h3 class="title"><a href="/2012/09/02/practice-qual-summer-2010-day1-p2.html">Practice Qual Summer 2010 Day1 P2</a> <span class="date">2012-09-02</span></h3>
+
+  <blockquote>
+<p>Define the inner product of two functions $f(x)$ and $g(x)$ defined on the interval [0,1] by
+\begin{equation}
+\langle f,g \rangle = \int_0^1 f(x)g(x)dx
+\end{equation}
+We say $f$ and $g$ are orthogonal if $\langle f,g \rangle = 0$.
+Let $\mathcal{P}$ be the space of cubic polynomials $p(x)$ satisfying $p(1)=p&#39;(1)=0$. This is a two-dimensional linear function space. Determine an orthogonal basis for this space with respect to the inner product above. Note: Orthogonal is enough, it need not be orthonormal.</p>
+</blockquote>
+
+<p>First we find two vectors in the space and then we use Gram-Schmidt process to orthogonalize them. </p>
+
+<p>The general way of finding the two vectors are to assume its form $p(x)=ax^3+bx^2+cx+d$. The two conditions $p(1)=p&#39;(1)=0$ gives us two constrains so that only two variables among $a,b,c$ and $d$ are flexible. That is also the reason why the space is two dimensional. We have
+\begin{equation}
+\cases{
+    a + b + c + d = 0\cr
+    3a + 2b + c = 0
+}
+\end{equation}
+We find two linear independent solutions
+\begin{equation}
+\cases{
+    p_1(x) = x^3 - 2x^2 + x\cr
+    p_2(x) = 2x^3 - 3x^2 + 1
+}
+\end{equation}
+There are other ways to come up with the two vectors. For example, by observation $x-1$ is also in the space.</p>
+
+
+  <div class="more">
+    <a href="/2012/09/02/practice-qual-summer-2010-day1-p2.html" class="btn">Read more or comment..</a>
+  </div>
+</div>
+<div class="post">
+  <h3 class="title"><a href="/2012/08/30/practice-qual-summer-2010-day1-p1.html">Practice Qual Summer 2010 Day1 P1</a> <span class="date">2012-08-30</span></h3>
+
+  <blockquote>
+<p>Consider the following nonlinear system:
+\begin{equation}
+\cases{
+    x&#39; = y + x^2y\cr
+    y&#39; = -x + 2xy
+}
+\end{equation}
+Find the fixed points of this system. Determine their stability. Assuming that there are no limit cycles, give a sketch of the phase portrait of the nonlinear system (Put this sketch on a separate page, and make it BIG). If you encounter marginal cases for the fixed points, assume that the linearization gives you the correct result.</p>
+</blockquote>
+
+<p>By setting $x&#39; = y&#39; = 0$, we get the only possible fixed point $(0, 0)$. The Jacobian of the vector field $(y + x^2y, -x + 2xy)$ is
+\begin{equation}
+\left(
+\begin{matrix}
+    2xy &amp; 1 + x^2 \cr
+    -1 + 2y &amp; 2x
+\end{matrix}
+\right)
+\end{equation}
+At the origin, the Jacobian becomes
+\begin{equation}
+\left(
+\begin{matrix}
+    0 &amp; 1\cr
+    -1 &amp; 0
+\end{matrix}
+\right)
+\end{equation}
+The two eigenvalues of the Jacobian are both purely imaginary. So we cannot say it is stable or unstable. By plotting the vector field around the origin, we can see that it is a center.</p>
+
+
+  <div class="more">
+    <a href="/2012/08/30/practice-qual-summer-2010-day1-p1.html" class="btn">Read more or comment..</a>
+  </div>
+</div>
+<div class="post">
+  <h3 class="title"><a href="/2012/08/30/practice-qual-summer-2010-day1-p3.html">Practice Qual Summer 2010 Day1 P3</a> <span class="date">2012-08-30</span></h3>
+
+  <blockquote>
+<p>Consider the ordinary differential equation
+\begin{equation}
+\frac{dy}{dt} = -100y
+\end{equation}
+Your unsophisticated friend is using the forward Euler method to solve this equation over the time interval [0, 5]. He observes a discrete approximation to the solution $y(t)$ whose absolute value increases over time. Is this possible? If so, characterize the time step that he is using. Now answer the same question using the backward Euler method.</p>
+</blockquote>
+
+<ul>
+<li><p>For the forward Euler method, we have $y_{n+1} = y_n + hf(t_n)$, where $h$ is the time spacing. In our case it will become $y_{n+1} = y_n + h(-100y_n) = (1-100h)y_n$. To make the absolute value of $y(t)$ increases over time, we have $|y_{n+1}| &gt; |y_n|$, which gives us $1-100h &gt; 1$ or $1-100h &lt; -1$. Since the timestep $h$ is positive, only the latter case is possible. In that case $h &gt; 0.02$.</p></li>
+<li><p>For the backward Euler method, we have $y_{n+1} = y_n + hf(t_{n+1})$. In our case it will become $y_{n+1} = y_n + h(-100y_{n+1})$. To make the absolute value of $y(t)$ increases over time, we have $|y_{n+1}| &gt; |y_n|$, which gives us $0 &lt; 1+100h &lt; 1$ or $-1 &lt; 1+100h &lt; 0$. Since the timestep $h$ is positive, neither case is possible. Therefore it is impossible if backward Euler method is used.</p></li>
+</ul>
+
+<p>Now we make some plots of the forward Euler method. Note that if we set $h = 0.02$, the absolute value of $y(t)$ will remain the same. In fact it will be oscillating because $y_{n+1} = -y_n$. Below is a plot of the case. We initialize $y(0) = 1$.</p>
+
+<p><img src="/assets/media/fig1.png" alt=""></p>
+
+<p>If we set $h &gt; 0.02$, it will be like</p>
+
+<p><img src="/assets/media/fig2.png" alt=""></p>
+
+<p>If we set $h$ slightly smaller than $0.02$, it is still not working correctly, but the amplitude of the solution will not increase.</p>
+
+<p><img src="/assets/media/fig3.png" alt=""></p>
+
+<p>If we set $h$ small enough, we get the correct behavior</p>
+
+<p><img src="/assets/media/fig4.png" alt=""></p>
+
+
+  <div class="more">
+    <a href="/2012/08/30/practice-qual-summer-2010-day1-p3.html" class="btn">Read more or comment..</a>
+  </div>
+</div>
+<div class="post">
+  <h3 class="title"><a href="/2012/08/17/one-liners-for-text-processing.html">One Liners For Text Processing</a> <span class="date">2012-08-17</span></h3>
+
+  <p>I&#39;m currently playing with the <a href="http://www.speech.cs.cmu.edu/cgi-bin/cmudict">CMU Pronouncing Dictionary</a>, which is a word-pronunciation dictionary that contains more than 100,000 items. In dealing with the massive amount of data, I&#39;ve learned some text processing techniques which I think is quite useful because these kinds of tasks, i.e. processing data, are frequently encountered, and being efficient in text manipulation will certainly save our lives.</p>
+
+<p>The first tool is <em>tr</em>, which can translate some chars into other chars. As far as I know, it does not support regex. For example, below is a segment of the n-gram counts of the phonemes:</p>
+
+<blockquote>
+<p>&lt;s&gt; T UH SH 1</p>
+
+<p>&lt;s&gt; T AE    71</p>
+
+<p>&lt;s&gt; T AE B  8</p>
+
+<p>&lt;s&gt; T AE N  9</p>
+
+<p>&lt;s&gt; T AE K  19</p>
+</blockquote>
+
+<p>What if I want to keep only the numbers? The following command should work:</p>
+
+<pre> tr -cd '[:digit:]\n' &lt; inputfile </pre>
+
+<p>That means we delete(-d) all the chars except(-c) the numbers([:digit:], which is same as [0-9]) and line break(\n).</p>
+
+<p>For the the same task we may also use the following <em>perl</em> command:</p>
+
+<pre> perl -i -pe 's/[^0-9\n]//g' inputfile </pre>
+
+<p>The -i argument means in-place edit, so the inputfile will simply be changed. You can write -i.bak to keep a backup, or simply ignore this option and the result will be displayed in the terminal. The -e argument makes perl code to execute on the command line. And the -p ensures the command to be executed per line. In princple, you can write any valid perl command in the quote. That implies, for instance, you can specify the substitution to happen conditionally on those lines that you desire.</p>
+
+<p>Instead of using perl, we can simply use <em>sed</em> almost the same way. Sed is especially designed to do substitution, as its name suggests.</p>
+
+<p>The <em>sort</em> command can sort the files by lines, with the -n argument for numerical sorting and -r for descending order. The -k option specify which column to sort. Quite convenient.</p>
+
+<p>Another powerful command is <em>awk</em>. For example, you can obtain the sum of the first column of all the lines in a file by a one liner:</p>
+
+
+  <div class="more">
+    <a href="/2012/08/17/one-liners-for-text-processing.html" class="btn">Read more or comment..</a>
+  </div>
+</div>
+<div class="post">
+  <h3 class="title"><a href="/2012/07/31/keep-going-reading-the-ph-d-grind.html">Keep Going -- Reading the Ph.D. Grind</a> <span class="date">2012-07-31</span></h3>
+
+  <p><em>The Ph.D. Grind</em> is a book written by Philip J. Guo, a student who has just finished his six-year graduate life at Stanford. In the book, Philip mainly addresses his research experience chronologically, giving an detailed account of the kinds of research he did and the way through which he achieved his goal. The book is freely available <a href="http://pgbovine.net/PhD-memoir.htm">here</a>.</p>
+
+<p>This book is definitely worth reading, especially for me as a grad student who is about to start his second year. Luckily Philip happens to be a CS student -- a major very close to mine. So there is a lot I can learn from his experience.</p>
+
+<p>In <em>Year One</em> Philip introduces the mechanism behind the publication of CS papers:</p>
+
+<blockquote>
+<p>Before I continue my story, I want to briefly introduce how academic papers are peer-reviewed and published. In computer science, the most prestigious venues for publishing papers are conferences. Note that in many other academic disciplines, journals are the most prestigious venues, and the word <code>conference</code> means something quite different. The computer science conference publication process works roughly as follows:</p>
+
+<ol>
+<li><p>Each conference issues a call for papers with a list of topics of interest and a specific submission deadline.</p></li>
+<li><p>Researchers submit their papers by that deadline. Each conference typically receives 100 to 300 paper submissions, and each paper contains the equivalent of 30 to 40 pages of double-spaced text.</p></li>
+<li><p>The conference program committee (PC), consisting of around 20 expert researchers, splits up the submitted papers and reviews them. Each paper is reviewed by three to five people, who are either PC members or volunteer external reviewers solicited by PC members. The review process takes about three months.</p></li>
+<li><p>After everyone on the PC is done with their reviews, the PC meets and decides which papers to accept and which to reject based on reviewer preferences.</p></li>
+<li><p>The PC emails all authors to notify them of whether their papers have been accepted or rejected and attaches the written reviews to the notification emails.</p></li>
+<li><p>Authors of accepted papers attend the conference to give a 30-minute talk on their paper. All accepted papers are then archived online in a digital library.</p></li>
+</ol>
+
+<p>A prestigious top-tier conference accepts 8 to 16 percent of submitted papers, and a second-tier conference accepts 20 to 30 percent. Due to these relatively low acceptance rates, it&#39;s not uncommon for a paper to be rejected, revised, and resubmitted several times before being accepted for publication - a process that might take several years. (A paper can be submitted to only one conference at a time.)</p>
+</blockquote>
+
+<p>Therefore it is extremely competitive to publish a top-tier conference paper. However, there are ways to improve the chance as Philip unveils the following facts:</p>
+
+<blockquote>
+<p>Since conferences usually accept less than 20 percent of paper submissions, if reviewers get a bad first impression when reading a paper, then they are likely to reject it. Dawson and I were not specialists in the empirical software measurement subfield, so we weren&#39;t able to <code>pitch</code> our paper submissions in a way that appealed to reviewers&#39; expectations.</p>
+
+<p>...</p>
+
+<p>In contrast, my paper submission with Scott and Joel was far more successful because Scott was an insider who had previously published and reviewed many papers in the HCI conference where we submitted our paper. Of course, being an insider didn&#39;t mean that our paper was scrutinized any less rigorously, since that would be unfair. However, Scott could leverage his experience to present our project&#39;s motivations and findings in a way that was the most palatable to those sorts of reviewers, thereby raising our paper&#39;s chances of acceptance.</p>
+</blockquote>
+
+<p>Thus before submitting a conference paper, it seems important to consult someone who has at least successfully pusblished a paper in that conference. It takes some time to tune the paper in order to satisfy the taste of the reviewers, so better early than late.</p>
+
+<p>Throughout the memoir, perhaps the most precious thing I learned is the importance of <strong>connection</strong>. Philip shows strong initiative and always seek advice and oppotunities from his colleagues and professors. The network enables him to gain an intern position at MSR, to find potential users of his software, to speak at Google Tech Talk, to pursue an visit to Harvard, and much more. Therefore building connection and making use of it is a key source to success. Philip also explains how in the epilogue:</p>
+
+<blockquote>
+<p>giving talks, chatting with colleagues, asking for and offering help, and expressing gratitude</p>
+</blockquote>
+
+<p>I think what hinders me from creating my connections is the lack of a good habit of consulting others. When encountering problems, I always attempt to solve them by myself, and seldom seek help from others. Asking for advice is of no harm. Instead it creates serendipities and boosts relationships. A very important point to remember.</p>
+
+<p>In spite of the successful graduation, Philip chose to quit academia and is now working at Google. His strong initiative and good working habits will certainly push himself towards future success. Anyway, thanks for the great book, Philip!</p>
+
+
+  <div class="more">
+    <a href="/2012/07/31/keep-going-reading-the-ph-d-grind.html" class="btn">Read more or comment..</a>
+  </div>
+</div>
+<script type="text/javascript">
+function init(){
+}
+</script>
+
+
+    </div>
+    <!-- Google Prettify -->
+<script src="http://cdnjs.cloudflare.com/ajax/libs/prettify/188.0.0/prettify.js"></script>
+<script>
+  var pres = document.getElementsByTagName("pre");
+  for (var i=0; i < pres.length; ++i) {
+    pres[i].className = "prettyprint ";
+  }
+  prettyPrint();
+</script>
+<!-- end Google Prettify -->
+</body>
+</html>

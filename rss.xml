@@ -3,7 +3,7 @@
   <channel>
     <title>Desiderata</title>
     <link>http://blog.charlesgao.com/</link>
-    <pubDate>2015-05-24 10:15:40 -0700</pubDate>
+    <pubDate>2015-09-02 14:42:10 +0800</pubDate>
     <item>
       <title>Bayesian Logistic Regression</title>
       <link>http://blog.charlesgao.com//2015/05/23/bayesian-logistic-regression.html</link>
@@ -13,8 +13,8 @@
 &lt;head&gt;
   &lt;meta charset="utf-8"&gt;
   &lt;title&gt;Bayesian Logistic Regression&lt;/title&gt;
-  &lt;link href="/assets/charlesgao/stylesheets/style.css?0.33827617966444135" type="text/css" rel="stylesheet" media="all"&gt;
-&lt;link href="/assets/charlesgao/widgets/google_prettify/stylesheets/twitter-bootstrap.css?0.841943010087179" type="text/css" rel="stylesheet" media="all"&gt;
+  &lt;link href="/assets/charlesgao/stylesheets/style.css?0.7670297939709138" type="text/css" rel="stylesheet" media="all"&gt;
+&lt;link href="/assets/charlesgao/widgets/google_prettify/stylesheets/twitter-bootstrap.css?0.9373519569618196" type="text/css" rel="stylesheet" media="all"&gt;
 
 
   &lt;script&gt;
@@ -254,6 +254,176 @@ end
 </description>
     </item>
     <item>
+      <title>Online Learning</title>
+      <link>http://blog.charlesgao.com//2015/04/29/online-learning.html</link>
+      <pubDate>2015-04-29</pubDate>
+      <description>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;title&gt;Online Learning&lt;/title&gt;
+  &lt;link href="/assets/charlesgao/stylesheets/style.css?0.04928175387218203" type="text/css" rel="stylesheet" media="all"&gt;
+&lt;link href="/assets/charlesgao/widgets/google_prettify/stylesheets/twitter-bootstrap.css?0.7069450323246584" type="text/css" rel="stylesheet" media="all"&gt;
+
+
+  &lt;script&gt;
+  var _gaq=[['_setAccount','UA-33798309-1'],['_trackPageview']];
+  (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+  g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+  s.parentNode.insertBefore(g,s)}(document,'script'));
+&lt;/script&gt;
+    &lt;script type='text/x-mathjax-config'&gt;
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [['$','$'], ['\\(','\\)']],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+        }
+    });
+    MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i &lt; all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+    });
+    &lt;/script&gt;
+    &lt;script type='text/javascript' src='http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'&gt;&lt;/script&gt;
+&lt;/head&gt;
+
+&lt;body onLoad="init();"&gt;
+
+    &lt;div class="blog-title"&gt;
+      &lt;h1&gt;&lt;a href="/"&gt;Desiderata&lt;/a&gt;&lt;/h1&gt;
+      &lt;h3&gt;Yet another blog of Yuan Gao.&lt;/h3&gt;
+    &lt;/div&gt;
+
+    &lt;div class="content"&gt;
+      &lt;div class="post"&gt;
+  &lt;div class="title"&gt;&lt;a href=""&gt;Online Learning&lt;/a&gt; &lt;span class="date"&gt;2015-04-29&lt;/span&gt;&lt;/h3&gt;&lt;/div&gt;
+  &lt;div&gt;
+  &lt;p&gt;Online learning is an area of machine learning where the data comes in a sequential fashion. This makes the problem particular interesting because it is like playing a game, where you are constantly making decisions as data streams in. The general model of online learning consists of the following steps:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;given current data $x_t$&lt;/li&gt;
+&lt;li&gt;perform action $u_t$&lt;/li&gt;
+&lt;li&gt;suffer loss $l_t(u_t)$&lt;/li&gt;
+&lt;li&gt;set $t = t + 1$, go to 1&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;The simple model depicted above turns out to be super powerful and general. Here are some examples:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Online Regression&lt;/strong&gt;. $x_t \in \mathbb{R}^p$ is a data point. $u_t \in \mathbb{R}$ is the prediction. $l_t(u_t) = (u_t - y_t)^2$, where $y_t \in \mathbb{R}$ is the true value. Here we used the square loss, but other loss functions can be used as well, such as absolute loss.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Online Classification&lt;/strong&gt;. $x_t \in \mathbb{R}^p$ is a data point. $u_t \in \{1, 2, \ldots, K\}$ is the prediction. $l_t(u_t) = 1 - \chi\left(u_t = y_t\right)$, where $\chi(\cdot)$ is the indicator function and $y_t \in \{1, 2, \ldots, K\}$ is the true label.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Online Clustering&lt;/strong&gt;.  $x_t \in \mathbb{R}^p$ is a data point. $u_t$ is a partition of the set $\{x_1, x_2, \ldots, x_t\}$. $y_t$ is a human defined optimal partition of the set $\{x_1, x_2, \ldots, x_t\}$. $l_t(u_t)$ is a measure of the difference between these two partitions.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The objective of an online learning model is to minimize the running loss
+\begin{equation}
+\sum_{t = 1}^T l_t(u_t).
+\end{equation}
+According to the &lt;em&gt;no free lunch&lt;/em&gt; theorem in machine learning, we have to come up with some hypothesis class to learn the best action sequences $u_t$. Different hypothesis corresponds to different models. Below are some examples:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Online Linear Least Squares&lt;/strong&gt;. $x_t \in \mathbb{R}^p$ is a data point. $u_t \in \mathbb{R}^p$ is the predicted weight vector. $l_t(u_t) = \left(\langle x_t, u_t \rangle - y_t\right)^2$, where $y_t \in \mathbb{R}$ is the true value.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Online Lasso.&lt;/strong&gt; Same as the previous example except that $l_t(u_t) = \left(\langle x_t, u_t \rangle - y_t\right)^2 + ||u_t||_1$. A somewhat equivalent idea is to impose the constraint in the hypothesis class, say let $u_t \in \{ u~| ||u||_1 \le \gamma \}$.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Online Logistic Regression.&lt;/strong&gt; $l_t(u_t) = log(1 + exp(-y_t\langle x_t, u_t \rangle))$, where $y_t \in \{+1, -1\}$ is the true label. &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;After the modelling process, the last thing is to come up with an optimization algorithm to minimize the objective. Unlike offline optimization algorithms where we can evaluate them by studying their convergence properties, in general for online learning an optimal solution does not even exist. For instance, we can take $l_t(u_t) = (-2)^tu_t$. Let the hypothesis class to be $[-1, 1]$, then the optimal solution is -1 for t odd and 1 for t even. Therefore the optimal solution depends on the horizon T. Given a fixed T, there exists an optimal solution from the hypothesis class. It is then natural to define the concept of regret
+\begin{equation}
+R(T) = \sum_{t = 1}^T l_t(u_t) - \min_{u \in \mathcal{H}}\sum_{t = 1}^T l_t(u),
+\end{equation}
+where $\mathcal{H}$ is the hypothesis class. The regret basically describes the convergence in optimal value. Similarly, we can also define the regret in optimal solution
+\begin{equation}
+R_s(T) = \sum_{t=1}^T \lvert u_t - argmin_{u \in \mathcal{H}}\sum_{\tau = 1}^t l_\tau(u) \rvert.
+\end{equation}
+For loss functions with both strong convexity and smoothness guarantees, $R(T)$ and $R_s(T)$ are equivalent up to a constant. For an online optimization algorithm, we hope that $R(T) = o(T)$. This implies the average regret tends to zero $\lim_{T\rightarrow\infty}R(T)/T = 0$, or on average the online algorithm performs equally well with an offline algorithm. It is unrealistic to ask for $R(T)\rightarrow 0$, because the regret is an accumulated error. &lt;/p&gt;
+
+&lt;h2 id="toc_0"&gt;Convex Loss Functions&lt;/h2&gt;
+
+&lt;p&gt;Throughout the discussion we will stick to convex loss functions, i.e.,  $l_t(\cdot)$ is convex for all $t$. The nice thing about a convex function is that it is bounded below by a line
+\begin{equation}
+l_t(u_t) - l_t(u) \le \langle z_t, u_t - u \rangle,
+\end{equation}
+where $z_t \in \partial l_t(u_t)$. In particular, if we choose $u^* = argmin_{u \in \mathcal{H}}\sum_{t = 1}^T l_t(u)$, this implies,
+\begin{equation}
+R(T) = \sum_{t = 1}^T l_t(u_t) - \sum_{t = 1}^T l_t(u^*) \le \sum_{t = 1}^T \langle z_t, u_t \rangle - \langle z_t, u^* \rangle \le R_L(T),
+\end{equation}
+where $R_L(T)$ is the regret with respect to the linear loss function $l_t(u_t) = \langle z_t, u_t \rangle$. Therefore we can focus on the regret study of linear loss functions, as they automatically induce an upper bound of the regret of convex loss functions.&lt;/p&gt;
+
+&lt;h2 id="toc_1"&gt;Algorithms&lt;/h2&gt;
+
+&lt;p&gt;A naive algorithm is called &lt;strong&gt;follow-the-leader&lt;/strong&gt;, which is to choose the vector that has the minimum loss on all past rounds.
+\begin{equation}
+u_t = argmin_{u \in H}\sum_{\tau=1}^{t-1}l_{\tau}(u).
+\end{equation}
+According to this definition, we have
+\begin{equation}
+R(T) = \sum_{t = 1}^T l_t(u_t) - \min_{u \in \mathcal{H}}\sum_{t = 1}^T l_t(u) = \sum_{t = 1}^T l_t(u_t) - \sum_{t = 1}^T l_t(u_{T+1}) \le \sum_{t = 1}^T \left(l_t(u_t) - l_t(u_{t+1})\right). 
+\end{equation}
+Note that here we are&lt;/p&gt;
+
+&lt;p&gt;Contrary to offline optimization where each iteration usually involves going through all the data, one iteration in an online optimization only observes one data. This makes online optimization algorithms preferable even in the offline case when the data size is large.&lt;/p&gt;
+
+&lt;h2 id="toc_2"&gt;Connection to Reinforcement Learning&lt;/h2&gt;
+
+&lt;p&gt;Online learning bears a lot of resemblance to reinforcement learning (RL), in that they both embody the flavor of making decision on the fly. In a typical RL scenario, we have a state space $X$ and any at any state $x \in X$ there is a set of actions $U(x)$ available, so that applying $u \in U(x)$ will lead us to another state $x&amp;#39;$, according to the dynamics $x&amp;#39; = f(x, u)$. At the meantime, we suffer from a loss $l(x, u)$. The goal is to minimize the total cost $\sum_{k=1}^n l(x_k, u_k)$. The infinite horizon formulation usually includes a discount factor $0 &amp;lt; \alpha &amp;lt; 1$ to mimic myopic behavior, so the total cost is $\sum_{k=1}^{\infty} \alpha^kl(x_k, u_k)$. The key factor that distinguishes RL from optimal control theory is that the dynamics $f(x, u)$ (usually modelled as a Markov transition between states $P(x&amp;#39;|x, u)$) and loss function $l(x, u)$ are not known beforehand, something known as partial observability. So a RL model looks like:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;given current state $x_t$&lt;/li&gt;
+&lt;li&gt;choose an action $u_t$&lt;/li&gt;
+&lt;li&gt;receive $x_{t+1} \sim P(x&amp;#39;|x_t, u_t)$ and $l(x_t, u_t)$&lt;/li&gt;
+&lt;li&gt;suffer loss $l(x_t, u_t)$&lt;/li&gt;
+&lt;li&gt;set $t = t + 1$, go to 1&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Comparing the model to online learning, we find that RL is actually a special case of online learning where we assume the data $x_{t+1}$ is influenced by our action/prediction at time $t$. Therefore reinforcement learning can be seen as an &lt;em&gt;active&lt;/em&gt; form of learning, where we are using our actions to actively exploring the state space.&lt;/p&gt;
+
+&lt;p&gt;Problem to study:
+1. Nesterov&amp;#39;s accerlerated online gradient descent
+2. Series Acceleration (Aitken)&lt;/p&gt;
+
+    &lt;div class="post-tags"&gt;
+      &lt;a href="/tags#machine learning-ref"&gt;machine learning&lt;/a&gt;
+      &lt;a href="/tags#online convex optimization-ref"&gt;online convex optimization&lt;/a&gt;
+      &lt;a href="/tags#stochastic optimization-ref"&gt;stochastic optimization&lt;/a&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="comments"&gt;
+&lt;div id="disqus_thread"&gt;&lt;/div&gt;
+&lt;script&gt;
+    var disqus_developer = 1;
+    var disqus_shortname = 'charlesgao'; // required: replace example with your forum shortname
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+&lt;/script&gt;
+&lt;noscript&gt;Please enable JavaScript to view the &lt;a href="http://disqus.com/?ref_noscript"&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
+&lt;a href="http://disqus.com" class="dsq-brlink"&gt;blog comments powered by &lt;span class="logo-disqus"&gt;Disqus&lt;/span&gt;&lt;/a&gt;
+
+&lt;/div&gt;
+ 
+
+    &lt;/div&gt;
+    &lt;!-- Google Prettify --&gt;
+&lt;script src="http://cdnjs.cloudflare.com/ajax/libs/prettify/188.0.0/prettify.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+  var pres = document.getElementsByTagName("pre");
+  for (var i=0; i &lt; pres.length; ++i) {
+    pres[i].className = "prettyprint ";
+  }
+  prettyPrint();
+&lt;/script&gt;
+&lt;!-- end Google Prettify --&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</description>
+    </item>
+    <item>
       <title>Things About General Exam</title>
       <link>http://blog.charlesgao.com//2014/11/13/things-about-general-exam.html</link>
       <pubDate>2014-11-13</pubDate>
@@ -262,8 +432,8 @@ end
 &lt;head&gt;
   &lt;meta charset="utf-8"&gt;
   &lt;title&gt;Things About General Exam&lt;/title&gt;
-  &lt;link href="/assets/charlesgao/stylesheets/style.css?0.7056249004349553" type="text/css" rel="stylesheet" media="all"&gt;
-&lt;link href="/assets/charlesgao/widgets/google_prettify/stylesheets/twitter-bootstrap.css?0.0442823626779828" type="text/css" rel="stylesheet" media="all"&gt;
+  &lt;link href="/assets/charlesgao/stylesheets/style.css?0.13792799825577184" type="text/css" rel="stylesheet" media="all"&gt;
+&lt;link href="/assets/charlesgao/widgets/google_prettify/stylesheets/twitter-bootstrap.css?0.27870752776568886" type="text/css" rel="stylesheet" media="all"&gt;
 
 
   &lt;script&gt;
@@ -356,8 +526,8 @@ end
 &lt;head&gt;
   &lt;meta charset="utf-8"&gt;
   &lt;title&gt;Probability Density Function And Partial Differential Equations&lt;/title&gt;
-  &lt;link href="/assets/charlesgao/stylesheets/style.css?0.8931734483364617" type="text/css" rel="stylesheet" media="all"&gt;
-&lt;link href="/assets/charlesgao/widgets/google_prettify/stylesheets/twitter-bootstrap.css?0.36758091060589637" type="text/css" rel="stylesheet" media="all"&gt;
+  &lt;link href="/assets/charlesgao/stylesheets/style.css?0.6953629837788103" type="text/css" rel="stylesheet" media="all"&gt;
+&lt;link href="/assets/charlesgao/widgets/google_prettify/stylesheets/twitter-bootstrap.css?0.6136436625043067" type="text/css" rel="stylesheet" media="all"&gt;
 
 
   &lt;script&gt;
@@ -488,8 +658,8 @@ We can see the close relationship between the method of images and the reflectio
 &lt;head&gt;
   &lt;meta charset="utf-8"&gt;
   &lt;title&gt;Conferences Related To Control&lt;/title&gt;
-  &lt;link href="/assets/charlesgao/stylesheets/style.css?0.7953615566802555" type="text/css" rel="stylesheet" media="all"&gt;
-&lt;link href="/assets/charlesgao/widgets/google_prettify/stylesheets/twitter-bootstrap.css?0.03492574854338504" type="text/css" rel="stylesheet" media="all"&gt;
+  &lt;link href="/assets/charlesgao/stylesheets/style.css?0.43310344412537694" type="text/css" rel="stylesheet" media="all"&gt;
+&lt;link href="/assets/charlesgao/widgets/google_prettify/stylesheets/twitter-bootstrap.css?0.590096562396745" type="text/css" rel="stylesheet" media="all"&gt;
 
 
   &lt;script&gt;
@@ -597,8 +767,8 @@ Deadline: 9/27/2013&lt;/p&gt;
 &lt;head&gt;
   &lt;meta charset="utf-8"&gt;
   &lt;title&gt;Discovering Prefixes And Suffixes&lt;/title&gt;
-  &lt;link href="/assets/charlesgao/stylesheets/style.css?0.3736167460259925" type="text/css" rel="stylesheet" media="all"&gt;
-&lt;link href="/assets/charlesgao/widgets/google_prettify/stylesheets/twitter-bootstrap.css?0.32354034545129273" type="text/css" rel="stylesheet" media="all"&gt;
+  &lt;link href="/assets/charlesgao/stylesheets/style.css?0.3689759707545258" type="text/css" rel="stylesheet" media="all"&gt;
+&lt;link href="/assets/charlesgao/widgets/google_prettify/stylesheets/twitter-bootstrap.css?0.47265944945830296" type="text/css" rel="stylesheet" media="all"&gt;
 
 
   &lt;script&gt;
@@ -970,8 +1140,8 @@ done
 &lt;head&gt;
   &lt;meta charset="utf-8"&gt;
   &lt;title&gt;Practice Qual Summer 2010 Day1 P4&lt;/title&gt;
-  &lt;link href="/assets/charlesgao/stylesheets/style.css?0.4269614685952491" type="text/css" rel="stylesheet" media="all"&gt;
-&lt;link href="/assets/charlesgao/widgets/google_prettify/stylesheets/twitter-bootstrap.css?0.40002484084413514" type="text/css" rel="stylesheet" media="all"&gt;
+  &lt;link href="/assets/charlesgao/stylesheets/style.css?0.10672236554625791" type="text/css" rel="stylesheet" media="all"&gt;
+&lt;link href="/assets/charlesgao/widgets/google_prettify/stylesheets/twitter-bootstrap.css?0.18141369984039302" type="text/css" rel="stylesheet" media="all"&gt;
 
 
   &lt;script&gt;
@@ -1088,8 +1258,8 @@ Then by taking the derivative of $\frac{1}{3}x^5$ respect to $x$ we get the same
 &lt;head&gt;
   &lt;meta charset="utf-8"&gt;
   &lt;title&gt;Practice Qual Summer 2010 Day1 P2&lt;/title&gt;
-  &lt;link href="/assets/charlesgao/stylesheets/style.css?0.4502870840121628" type="text/css" rel="stylesheet" media="all"&gt;
-&lt;link href="/assets/charlesgao/widgets/google_prettify/stylesheets/twitter-bootstrap.css?0.2659622603932902" type="text/css" rel="stylesheet" media="all"&gt;
+  &lt;link href="/assets/charlesgao/stylesheets/style.css?0.6291591491641836" type="text/css" rel="stylesheet" media="all"&gt;
+&lt;link href="/assets/charlesgao/widgets/google_prettify/stylesheets/twitter-bootstrap.css?0.5011279356091936" type="text/css" rel="stylesheet" media="all"&gt;
 
 
   &lt;script&gt;
@@ -1206,6 +1376,123 @@ One can verify that $\langle p_1(x), p_3(x) \rangle = 0$.&lt;/p&gt;
 </description>
     </item>
     <item>
+      <title>Practice Qual Summer 2010 Day1 P3</title>
+      <link>http://blog.charlesgao.com//2012/08/30/practice-qual-summer-2010-day1-p3.html</link>
+      <pubDate>2012-08-30</pubDate>
+      <description>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;title&gt;Practice Qual Summer 2010 Day1 P3&lt;/title&gt;
+  &lt;link href="/assets/charlesgao/stylesheets/style.css?0.8730134791762216" type="text/css" rel="stylesheet" media="all"&gt;
+&lt;link href="/assets/charlesgao/widgets/google_prettify/stylesheets/twitter-bootstrap.css?0.11827495181505865" type="text/css" rel="stylesheet" media="all"&gt;
+
+
+  &lt;script&gt;
+  var _gaq=[['_setAccount','UA-33798309-1'],['_trackPageview']];
+  (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+  g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+  s.parentNode.insertBefore(g,s)}(document,'script'));
+&lt;/script&gt;
+    &lt;script type='text/x-mathjax-config'&gt;
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [['$','$'], ['\\(','\\)']],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+        }
+    });
+    MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i &lt; all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+    });
+    &lt;/script&gt;
+    &lt;script type='text/javascript' src='http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'&gt;&lt;/script&gt;
+&lt;/head&gt;
+
+&lt;body onLoad="init();"&gt;
+
+    &lt;div class="blog-title"&gt;
+      &lt;h1&gt;&lt;a href="/"&gt;Desiderata&lt;/a&gt;&lt;/h1&gt;
+      &lt;h3&gt;Yet another blog of Yuan Gao.&lt;/h3&gt;
+    &lt;/div&gt;
+
+    &lt;div class="content"&gt;
+      &lt;div class="post"&gt;
+  &lt;div class="title"&gt;&lt;a href=""&gt;Practice Qual Summer 2010 Day1 P3&lt;/a&gt; &lt;span class="date"&gt;2012-08-30&lt;/span&gt;&lt;/h3&gt;&lt;/div&gt;
+  &lt;div&gt;
+  &lt;blockquote&gt;
+&lt;p&gt;Consider the ordinary differential equation
+\begin{equation}
+\frac{dy}{dt} = -100y
+\end{equation}
+Your unsophisticated friend is using the forward Euler method to solve this equation over the time interval [0, 5]. He observes a discrete approximation to the solution $y(t)$ whose absolute value increases over time. Is this possible? If so, characterize the time step that he is using. Now answer the same question using the backward Euler method.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;For the forward Euler method, we have $y_{n+1} = y_n + hf(t_n)$, where $h$ is the time spacing. In our case it will become $y_{n+1} = y_n + h(-100y_n) = (1-100h)y_n$. To make the absolute value of $y(t)$ increases over time, we have $|y_{n+1}| &amp;gt; |y_n|$, which gives us $1-100h &amp;gt; 1$ or $1-100h &amp;lt; -1$. Since the timestep $h$ is positive, only the latter case is possible. In that case $h &amp;gt; 0.02$.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;For the backward Euler method, we have $y_{n+1} = y_n + hf(t_{n+1})$. In our case it will become $y_{n+1} = y_n + h(-100y_{n+1})$. To make the absolute value of $y(t)$ increases over time, we have $|y_{n+1}| &amp;gt; |y_n|$, which gives us $0 &amp;lt; 1+100h &amp;lt; 1$ or $-1 &amp;lt; 1+100h &amp;lt; 0$. Since the timestep $h$ is positive, neither case is possible. Therefore it is impossible if backward Euler method is used.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Now we make some plots of the forward Euler method. Note that if we set $h = 0.02$, the absolute value of $y(t)$ will remain the same. In fact it will be oscillating because $y_{n+1} = -y_n$. Below is a plot of the case. We initialize $y(0) = 1$.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src="/assets/media/fig1.png" alt=""&gt;&lt;/p&gt;
+
+&lt;p&gt;If we set $h &amp;gt; 0.02$, it will be like&lt;/p&gt;
+
+&lt;p&gt;&lt;img src="/assets/media/fig2.png" alt=""&gt;&lt;/p&gt;
+
+&lt;p&gt;If we set $h$ slightly smaller than $0.02$, it is still not working correctly, but the amplitude of the solution will not increase.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src="/assets/media/fig3.png" alt=""&gt;&lt;/p&gt;
+
+&lt;p&gt;If we set $h$ small enough, we get the correct behavior&lt;/p&gt;
+
+&lt;p&gt;&lt;img src="/assets/media/fig4.png" alt=""&gt;&lt;/p&gt;
+
+    &lt;div class="post-tags"&gt;
+      &lt;a href="/tags#quals-ref"&gt;quals&lt;/a&gt;
+      &lt;a href="/tags#numerical methods-ref"&gt;numerical methods&lt;/a&gt;
+      &lt;a href="/tags#forward Euler-ref"&gt;forward Euler&lt;/a&gt;
+      &lt;a href="/tags#backward Euler-ref"&gt;backward Euler&lt;/a&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="comments"&gt;
+&lt;div id="disqus_thread"&gt;&lt;/div&gt;
+&lt;script&gt;
+    var disqus_developer = 1;
+    var disqus_shortname = 'charlesgao'; // required: replace example with your forum shortname
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+&lt;/script&gt;
+&lt;noscript&gt;Please enable JavaScript to view the &lt;a href="http://disqus.com/?ref_noscript"&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
+&lt;a href="http://disqus.com" class="dsq-brlink"&gt;blog comments powered by &lt;span class="logo-disqus"&gt;Disqus&lt;/span&gt;&lt;/a&gt;
+
+&lt;/div&gt;
+ 
+
+    &lt;/div&gt;
+    &lt;!-- Google Prettify --&gt;
+&lt;script src="http://cdnjs.cloudflare.com/ajax/libs/prettify/188.0.0/prettify.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+  var pres = document.getElementsByTagName("pre");
+  for (var i=0; i &lt; pres.length; ++i) {
+    pres[i].className = "prettyprint ";
+  }
+  prettyPrint();
+&lt;/script&gt;
+&lt;!-- end Google Prettify --&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</description>
+    </item>
+    <item>
       <title>Practice Qual Summer 2010 Day1 P1</title>
       <link>http://blog.charlesgao.com//2012/08/30/practice-qual-summer-2010-day1-p1.html</link>
       <pubDate>2012-08-30</pubDate>
@@ -1214,8 +1501,8 @@ One can verify that $\langle p_1(x), p_3(x) \rangle = 0$.&lt;/p&gt;
 &lt;head&gt;
   &lt;meta charset="utf-8"&gt;
   &lt;title&gt;Practice Qual Summer 2010 Day1 P1&lt;/title&gt;
-  &lt;link href="/assets/charlesgao/stylesheets/style.css?0.4085949773666808" type="text/css" rel="stylesheet" media="all"&gt;
-&lt;link href="/assets/charlesgao/widgets/google_prettify/stylesheets/twitter-bootstrap.css?0.6175408175023106" type="text/css" rel="stylesheet" media="all"&gt;
+  &lt;link href="/assets/charlesgao/stylesheets/style.css?0.0027102072909994668" type="text/css" rel="stylesheet" media="all"&gt;
+&lt;link href="/assets/charlesgao/widgets/google_prettify/stylesheets/twitter-bootstrap.css?0.5470243160235039" type="text/css" rel="stylesheet" media="all"&gt;
 
 
   &lt;script&gt;
@@ -1331,123 +1618,6 @@ The two eigenvalues of the Jacobian are both purely imaginary. So we cannot say 
 </description>
     </item>
     <item>
-      <title>Practice Qual Summer 2010 Day1 P3</title>
-      <link>http://blog.charlesgao.com//2012/08/30/practice-qual-summer-2010-day1-p3.html</link>
-      <pubDate>2012-08-30</pubDate>
-      <description>&lt;!DOCTYPE html&gt;
-&lt;html lang="en"&gt;
-&lt;head&gt;
-  &lt;meta charset="utf-8"&gt;
-  &lt;title&gt;Practice Qual Summer 2010 Day1 P3&lt;/title&gt;
-  &lt;link href="/assets/charlesgao/stylesheets/style.css?0.44161440395911533" type="text/css" rel="stylesheet" media="all"&gt;
-&lt;link href="/assets/charlesgao/widgets/google_prettify/stylesheets/twitter-bootstrap.css?0.18173438184887147" type="text/css" rel="stylesheet" media="all"&gt;
-
-
-  &lt;script&gt;
-  var _gaq=[['_setAccount','UA-33798309-1'],['_trackPageview']];
-  (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-  g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
-  s.parentNode.insertBefore(g,s)}(document,'script'));
-&lt;/script&gt;
-    &lt;script type='text/x-mathjax-config'&gt;
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [['$','$'], ['\\(','\\)']],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
-        }
-    });
-    MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i = 0; i &lt; all.length; i += 1) {
-        all[i].SourceElement().parentNode.className += ' has-jax';
-    }
-    });
-    &lt;/script&gt;
-    &lt;script type='text/javascript' src='http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'&gt;&lt;/script&gt;
-&lt;/head&gt;
-
-&lt;body onLoad="init();"&gt;
-
-    &lt;div class="blog-title"&gt;
-      &lt;h1&gt;&lt;a href="/"&gt;Desiderata&lt;/a&gt;&lt;/h1&gt;
-      &lt;h3&gt;Yet another blog of Yuan Gao.&lt;/h3&gt;
-    &lt;/div&gt;
-
-    &lt;div class="content"&gt;
-      &lt;div class="post"&gt;
-  &lt;div class="title"&gt;&lt;a href=""&gt;Practice Qual Summer 2010 Day1 P3&lt;/a&gt; &lt;span class="date"&gt;2012-08-30&lt;/span&gt;&lt;/h3&gt;&lt;/div&gt;
-  &lt;div&gt;
-  &lt;blockquote&gt;
-&lt;p&gt;Consider the ordinary differential equation
-\begin{equation}
-\frac{dy}{dt} = -100y
-\end{equation}
-Your unsophisticated friend is using the forward Euler method to solve this equation over the time interval [0, 5]. He observes a discrete approximation to the solution $y(t)$ whose absolute value increases over time. Is this possible? If so, characterize the time step that he is using. Now answer the same question using the backward Euler method.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;For the forward Euler method, we have $y_{n+1} = y_n + hf(t_n)$, where $h$ is the time spacing. In our case it will become $y_{n+1} = y_n + h(-100y_n) = (1-100h)y_n$. To make the absolute value of $y(t)$ increases over time, we have $|y_{n+1}| &amp;gt; |y_n|$, which gives us $1-100h &amp;gt; 1$ or $1-100h &amp;lt; -1$. Since the timestep $h$ is positive, only the latter case is possible. In that case $h &amp;gt; 0.02$.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;For the backward Euler method, we have $y_{n+1} = y_n + hf(t_{n+1})$. In our case it will become $y_{n+1} = y_n + h(-100y_{n+1})$. To make the absolute value of $y(t)$ increases over time, we have $|y_{n+1}| &amp;gt; |y_n|$, which gives us $0 &amp;lt; 1+100h &amp;lt; 1$ or $-1 &amp;lt; 1+100h &amp;lt; 0$. Since the timestep $h$ is positive, neither case is possible. Therefore it is impossible if backward Euler method is used.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Now we make some plots of the forward Euler method. Note that if we set $h = 0.02$, the absolute value of $y(t)$ will remain the same. In fact it will be oscillating because $y_{n+1} = -y_n$. Below is a plot of the case. We initialize $y(0) = 1$.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src="/assets/media/fig1.png" alt=""&gt;&lt;/p&gt;
-
-&lt;p&gt;If we set $h &amp;gt; 0.02$, it will be like&lt;/p&gt;
-
-&lt;p&gt;&lt;img src="/assets/media/fig2.png" alt=""&gt;&lt;/p&gt;
-
-&lt;p&gt;If we set $h$ slightly smaller than $0.02$, it is still not working correctly, but the amplitude of the solution will not increase.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src="/assets/media/fig3.png" alt=""&gt;&lt;/p&gt;
-
-&lt;p&gt;If we set $h$ small enough, we get the correct behavior&lt;/p&gt;
-
-&lt;p&gt;&lt;img src="/assets/media/fig4.png" alt=""&gt;&lt;/p&gt;
-
-    &lt;div class="post-tags"&gt;
-      &lt;a href="/tags#quals-ref"&gt;quals&lt;/a&gt;
-      &lt;a href="/tags#numerical methods-ref"&gt;numerical methods&lt;/a&gt;
-      &lt;a href="/tags#forward Euler-ref"&gt;forward Euler&lt;/a&gt;
-      &lt;a href="/tags#backward Euler-ref"&gt;backward Euler&lt;/a&gt;
-    &lt;/div&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="comments"&gt;
-&lt;div id="disqus_thread"&gt;&lt;/div&gt;
-&lt;script&gt;
-    var disqus_developer = 1;
-    var disqus_shortname = 'charlesgao'; // required: replace example with your forum shortname
-    /* * * DON'T EDIT BELOW THIS LINE * * */
-    (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-&lt;/script&gt;
-&lt;noscript&gt;Please enable JavaScript to view the &lt;a href="http://disqus.com/?ref_noscript"&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;
-&lt;a href="http://disqus.com" class="dsq-brlink"&gt;blog comments powered by &lt;span class="logo-disqus"&gt;Disqus&lt;/span&gt;&lt;/a&gt;
-
-&lt;/div&gt;
- 
-
-    &lt;/div&gt;
-    &lt;!-- Google Prettify --&gt;
-&lt;script src="http://cdnjs.cloudflare.com/ajax/libs/prettify/188.0.0/prettify.js"&gt;&lt;/script&gt;
-&lt;script&gt;
-  var pres = document.getElementsByTagName("pre");
-  for (var i=0; i &lt; pres.length; ++i) {
-    pres[i].className = "prettyprint ";
-  }
-  prettyPrint();
-&lt;/script&gt;
-&lt;!-- end Google Prettify --&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</description>
-    </item>
-    <item>
       <title>One Liners For Text Processing</title>
       <link>http://blog.charlesgao.com//2012/08/17/one-liners-for-text-processing.html</link>
       <pubDate>2012-08-17</pubDate>
@@ -1456,8 +1626,8 @@ Your unsophisticated friend is using the forward Euler method to solve this equa
 &lt;head&gt;
   &lt;meta charset="utf-8"&gt;
   &lt;title&gt;One Liners For Text Processing&lt;/title&gt;
-  &lt;link href="/assets/charlesgao/stylesheets/style.css?0.43829955171894486" type="text/css" rel="stylesheet" media="all"&gt;
-&lt;link href="/assets/charlesgao/widgets/google_prettify/stylesheets/twitter-bootstrap.css?0.2893700741477767" type="text/css" rel="stylesheet" media="all"&gt;
+  &lt;link href="/assets/charlesgao/stylesheets/style.css?0.4267412882690188" type="text/css" rel="stylesheet" media="all"&gt;
+&lt;link href="/assets/charlesgao/widgets/google_prettify/stylesheets/twitter-bootstrap.css?0.45033079290903344" type="text/css" rel="stylesheet" media="all"&gt;
 
 
   &lt;script&gt;
@@ -1653,8 +1823,8 @@ rm CH CH_F PH PH_F CHPH TMP
 &lt;head&gt;
   &lt;meta charset="utf-8"&gt;
   &lt;title&gt;Keep Going -- Reading the Ph.D. Grind&lt;/title&gt;
-  &lt;link href="/assets/charlesgao/stylesheets/style.css?0.8797928393784461" type="text/css" rel="stylesheet" media="all"&gt;
-&lt;link href="/assets/charlesgao/widgets/google_prettify/stylesheets/twitter-bootstrap.css?0.09016464198416974" type="text/css" rel="stylesheet" media="all"&gt;
+  &lt;link href="/assets/charlesgao/stylesheets/style.css?0.8507063396348546" type="text/css" rel="stylesheet" media="all"&gt;
+&lt;link href="/assets/charlesgao/widgets/google_prettify/stylesheets/twitter-bootstrap.css?0.16150248663612654" type="text/css" rel="stylesheet" media="all"&gt;
 
 
   &lt;script&gt;

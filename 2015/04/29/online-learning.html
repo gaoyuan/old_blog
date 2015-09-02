@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Online Learning</title>
+  <link href="/assets/charlesgao/stylesheets/style.css?0.9856746549016677" type="text/css" rel="stylesheet" media="all">
+<link href="/assets/charlesgao/widgets/google_prettify/stylesheets/twitter-bootstrap.css?0.511791481211566" type="text/css" rel="stylesheet" media="all">
+
+
+  <script>
+  var _gaq=[['_setAccount','UA-33798309-1'],['_trackPageview']];
+  (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+  g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+  s.parentNode.insertBefore(g,s)}(document,'script'));
+</script>
+    <script type='text/x-mathjax-config'>
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [['$','$'], ['\\(','\\)']],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+        }
+    });
+    MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+    });
+    </script>
+    <script type='text/javascript' src='http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+</head>
+
+<body onLoad="init();">
+
+    <div class="blog-title">
+      <h1><a href="/">Desiderata</a></h1>
+      <h3>Yet another blog of Yuan Gao.</h3>
+    </div>
+
+    <div class="content">
+      <div class="post">
+  <div class="title"><a href="">Online Learning</a> <span class="date">2015-04-29</span></h3></div>
+  <div>
+  <p>Online learning is an area of machine learning where the data comes in a sequential fashion. This makes the problem particular interesting because it is like playing a game, where you are constantly making decisions as data streams in. The general model of online learning consists of the following steps:</p>
+
+<ol>
+<li>given current data $x_t$</li>
+<li>perform action $u_t$</li>
+<li>suffer loss $l_t(u_t)$</li>
+<li>set $t = t + 1$, go to 1</li>
+</ol>
+
+<p>The simple model depicted above turns out to be super powerful and general. Here are some examples:</p>
+
+<ul>
+<li><strong>Online Regression</strong>. $x_t \in \mathbb{R}^p$ is a data point. $u_t \in \mathbb{R}$ is the prediction. $l_t(u_t) = (u_t - y_t)^2$, where $y_t \in \mathbb{R}$ is the true value. Here we used the square loss, but other loss functions can be used as well, such as absolute loss.</li>
+<li><strong>Online Classification</strong>. $x_t \in \mathbb{R}^p$ is a data point. $u_t \in \{1, 2, \ldots, K\}$ is the prediction. $l_t(u_t) = 1 - \chi\left(u_t = y_t\right)$, where $\chi(\cdot)$ is the indicator function and $y_t \in \{1, 2, \ldots, K\}$ is the true label.</li>
+<li><strong>Online Clustering</strong>.  $x_t \in \mathbb{R}^p$ is a data point. $u_t$ is a partition of the set $\{x_1, x_2, \ldots, x_t\}$. $y_t$ is a human defined optimal partition of the set $\{x_1, x_2, \ldots, x_t\}$. $l_t(u_t)$ is a measure of the difference between these two partitions.</li>
+</ul>
+
+<p>The objective of an online learning model is to minimize the running loss
+\begin{equation}
+\sum_{t = 1}^T l_t(u_t).
+\end{equation}
+According to the <em>no free lunch</em> theorem in machine learning, we have to come up with some hypothesis class to learn the best action sequences $u_t$. Different hypothesis corresponds to different models. Below are some examples:</p>
+
+<ul>
+<li><strong>Online Linear Least Squares</strong>. $x_t \in \mathbb{R}^p$ is a data point. $u_t \in \mathbb{R}^p$ is the predicted weight vector. $l_t(u_t) = \left(\langle x_t, u_t \rangle - y_t\right)^2$, where $y_t \in \mathbb{R}$ is the true value.</li>
+<li><strong>Online Lasso.</strong> Same as the previous example except that $l_t(u_t) = \left(\langle x_t, u_t \rangle - y_t\right)^2 + ||u_t||_1$. A somewhat equivalent idea is to impose the constraint in the hypothesis class, say let $u_t \in \{ u~| ||u||_1 \le \gamma \}$.</li>
+<li><strong>Online Logistic Regression.</strong> $l_t(u_t) = log(1 + exp(-y_t\langle x_t, u_t \rangle))$, where $y_t \in \{+1, -1\}$ is the true label. </li>
+</ul>
+
+<p>After the modelling process, the last thing is to come up with an optimization algorithm to minimize the objective. Unlike offline optimization algorithms where we can evaluate them by studying their convergence properties, in general for online learning an optimal solution does not even exist. For instance, we can take $l_t(u_t) = (-2)^tu_t$. Let the hypothesis class to be $[-1, 1]$, then the optimal solution is -1 for t odd and 1 for t even. Therefore the optimal solution depends on the horizon T. Given a fixed T, there exists an optimal solution from the hypothesis class. It is then natural to define the concept of regret
+\begin{equation}
+R(T) = \sum_{t = 1}^T l_t(u_t) - \min_{u \in \mathcal{H}}\sum_{t = 1}^T l_t(u),
+\end{equation}
+where $\mathcal{H}$ is the hypothesis class. The regret basically describes the convergence in optimal value. Similarly, we can also define the regret in optimal solution
+\begin{equation}
+R_s(T) = \sum_{t=1}^T \lvert u_t - argmin_{u \in \mathcal{H}}\sum_{\tau = 1}^t l_\tau(u) \rvert.
+\end{equation}
+For loss functions with both strong convexity and smoothness guarantees, $R(T)$ and $R_s(T)$ are equivalent up to a constant. For an online optimization algorithm, we hope that $R(T) = o(T)$. This implies the average regret tends to zero $\lim_{T\rightarrow\infty}R(T)/T = 0$, or on average the online algorithm performs equally well with an offline algorithm. It is unrealistic to ask for $R(T)\rightarrow 0$, because the regret is an accumulated error. </p>
+
+<h2 id="toc_0">Convex Loss Functions</h2>
+
+<p>Throughout the discussion we will stick to convex loss functions, i.e.,  $l_t(\cdot)$ is convex for all $t$. The nice thing about a convex function is that it is bounded below by a line
+\begin{equation}
+l_t(u_t) - l_t(u) \le \langle z_t, u_t - u \rangle,
+\end{equation}
+where $z_t \in \partial l_t(u_t)$. In particular, if we choose $u^* = argmin_{u \in \mathcal{H}}\sum_{t = 1}^T l_t(u)$, this implies,
+\begin{equation}
+R(T) = \sum_{t = 1}^T l_t(u_t) - \sum_{t = 1}^T l_t(u^*) \le \sum_{t = 1}^T \langle z_t, u_t \rangle - \langle z_t, u^* \rangle \le R_L(T),
+\end{equation}
+where $R_L(T)$ is the regret with respect to the linear loss function $l_t(u_t) = \langle z_t, u_t \rangle$. Therefore we can focus on the regret study of linear loss functions, as they automatically induce an upper bound of the regret of convex loss functions.</p>
+
+<h2 id="toc_1">Algorithms</h2>
+
+<p>A naive algorithm is called <strong>follow-the-leader</strong>, which is to choose the vector that has the minimum loss on all past rounds.
+\begin{equation}
+u_t = argmin_{u \in H}\sum_{\tau=1}^{t-1}l_{\tau}(u).
+\end{equation}
+According to this definition, we have
+\begin{equation}
+R(T) = \sum_{t = 1}^T l_t(u_t) - \min_{u \in \mathcal{H}}\sum_{t = 1}^T l_t(u) = \sum_{t = 1}^T l_t(u_t) - \sum_{t = 1}^T l_t(u_{T+1}) \le \sum_{t = 1}^T \left(l_t(u_t) - l_t(u_{t+1})\right). 
+\end{equation}
+Note that here we are</p>
+
+<p>Contrary to offline optimization where each iteration usually involves going through all the data, one iteration in an online optimization only observes one data. This makes online optimization algorithms preferable even in the offline case when the data size is large.</p>
+
+<h2 id="toc_2">Connection to Reinforcement Learning</h2>
+
+<p>Online learning bears a lot of resemblance to reinforcement learning (RL), in that they both embody the flavor of making decision on the fly. In a typical RL scenario, we have a state space $X$ and any at any state $x \in X$ there is a set of actions $U(x)$ available, so that applying $u \in U(x)$ will lead us to another state $x&#39;$, according to the dynamics $x&#39; = f(x, u)$. At the meantime, we suffer from a loss $l(x, u)$. The goal is to minimize the total cost $\sum_{k=1}^n l(x_k, u_k)$. The infinite horizon formulation usually includes a discount factor $0 &lt; \alpha &lt; 1$ to mimic myopic behavior, so the total cost is $\sum_{k=1}^{\infty} \alpha^kl(x_k, u_k)$. The key factor that distinguishes RL from optimal control theory is that the dynamics $f(x, u)$ (usually modelled as a Markov transition between states $P(x&#39;|x, u)$) and loss function $l(x, u)$ are not known beforehand, something known as partial observability. So a RL model looks like:</p>
+
+<ol>
+<li>given current state $x_t$</li>
+<li>choose an action $u_t$</li>
+<li>receive $x_{t+1} \sim P(x&#39;|x_t, u_t)$ and $l(x_t, u_t)$</li>
+<li>suffer loss $l(x_t, u_t)$</li>
+<li>set $t = t + 1$, go to 1</li>
+</ol>
+
+<p>Comparing the model to online learning, we find that RL is actually a special case of online learning where we assume the data $x_{t+1}$ is influenced by our action/prediction at time $t$. Therefore reinforcement learning can be seen as an <em>active</em> form of learning, where we are using our actions to actively exploring the state space.</p>
+
+<p>Problem to study:
+1. Nesterov&#39;s accerlerated online gradient descent
+2. Series Acceleration (Aitken)</p>
+
+    <div class="post-tags">
+      <a href="/tags#machine learning-ref">machine learning</a>
+      <a href="/tags#online convex optimization-ref">online convex optimization</a>
+      <a href="/tags#stochastic optimization-ref">stochastic optimization</a>
+    </div>
+  </div>
+</div>
+<div class="comments">
+<div id="disqus_thread"></div>
+<script>
+    var disqus_developer = 1;
+    var disqus_shortname = 'charlesgao'; // required: replace example with your forum shortname
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+</div>
+ 
+
+    </div>
+    <!-- Google Prettify -->
+<script src="http://cdnjs.cloudflare.com/ajax/libs/prettify/188.0.0/prettify.js"></script>
+<script>
+  var pres = document.getElementsByTagName("pre");
+  for (var i=0; i < pres.length; ++i) {
+    pres[i].className = "prettyprint ";
+  }
+  prettyPrint();
+</script>
+<!-- end Google Prettify -->
+</body>
+</html>
